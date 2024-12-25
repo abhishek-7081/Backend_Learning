@@ -1,53 +1,46 @@
-import mongoose,{Schema} from "mongoose";
+import mongoose, { Schema } from "mongoose";
+import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
 
-const userSchema = new Schema(
+const vedioSchema = new Schema(
     {
-        username:{
-            type:String,
-            required:true,
-            unique:true,
-            lowercase:true,
-            trim:true,
-            index:true
+        videoFile: {
+            type: String,     //clodinary url
+            required: true
         },
-        email:{
-            type:String,
-            required:true,
-            unique:true,
-            lowercase:true,
-            trim:true
+        thumbnail: {
+            type: String
+            ,
+            required: true
+
         },
-        fullname:{
-            type:String,
-            required:true,
-            trim:true,
-            index:true
+        title: {
+            type: String,
+            required: true
         },
-        avatar:{
-            type:String,//cloudinary url
-            required:true
+        description: {
+            type: String,
+            required: true
         },
-        coverImage:{
-            type:String//cloudinary url  
+        durations: {
+            type: Number,
+            required: true
         },
-        watchHistory:[
-            {
-                type:Schema.Types.ObjectId,
-                ref:"Video"
-            }
-        ],
-        password:{
-            type:String,
-            required:[true,"Password is Required"]
+        views: {
+            type: Number,
+            default: 0
         },
-        refreshToken:{
-            type:String
+        isPublised: {
+            type: Boolean,
+            default: true
+        },
+        owner: {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+
         }
 
 
-    },{timestamps:true}
+    }, { timestamps: true }
 )
 
-
-
-export const User=mongoose.model("User",userSchema)
+export const Video = mongoose.model("Video", vedioSchema)

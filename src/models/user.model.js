@@ -1,46 +1,53 @@
-import mongoose, { Schema } from "mongoose";
-import mongooseAggregatePaginate from "mongoose-aggregate-paginate-v2";
+import mongoose,{Schema} from "mongoose";
 
-const vedioSchema = new Schema(
+const userSchema = new Schema(
     {
-        videoFile: {
-            type: String,     //clodinary url
-            required: true
+        username:{
+            type:String,
+            required:true,
+            unique:true,
+            lowercase:true,
+            trim:true,
+            index:true
         },
-        thumbnail: {
-            type: String
-            ,
-            required: true
-
+        email:{
+            type:String,
+            required:true,
+            unique:true,
+            lowercase:true,
+            trim:true
         },
-        title: {
-            type: String,
-            required: true
+        fullname:{
+            type:String,
+            required:true,
+            trim:true,
+            index:true
         },
-        description: {
-            type: String,
-            required: true
+        avatar:{
+            type:String,//cloudinary url
+            required:true
         },
-        durations: {
-            type: Number,
-            required: true
+        coverImage:{
+            type:String//cloudinary url  
         },
-        views: {
-            type: Number,
-            default: 0
+        watchHistory:[
+            {
+                type:Schema.Types.ObjectId,
+                ref:"Video"
+            }
+        ],
+        password:{
+            type:String,
+            required:[true,"Password is Required"]
         },
-        isPublised: {
-            type: Boolean,
-            default: true
-        },
-        owner: {
-            type: Schema.Types.ObjectId,
-            ref: 'User'
-
+        refreshToken:{
+            type:String
         }
 
 
-    }, { timestamps: true }
+    },{timestamps:true}
 )
 
-export const Video = mongoose.model("Video", vedioSchema)
+
+
+export const User=mongoose.model("User",userSchema)
