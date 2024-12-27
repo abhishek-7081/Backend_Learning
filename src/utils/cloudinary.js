@@ -1,5 +1,4 @@
-import { v2 as clodinary } from "cloudinary";
-import { response, response } from "express";
+import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 
 
@@ -13,18 +12,19 @@ const uploadOnCloudinary = async (localFilepath) => {
     try {
         if (!localFilepath) return null
         //upload file on cloudinary
-        const response = clodinary.uploader.upload(localFilepath,
+        const response = cloudinary.uploader.upload(localFilepath,
             {
                 resource_type: "auto"
             }
         )
             //file has been uploaded successfully
-            console.log("FIle has been uploaded on cloudinary", response.url);
+            console.log("FIle has been uploaded on cloudinary", response);
 
             return response;
 
     } catch (error) {
         fs.unlink(localFilepath)//remove file from local server if not uploaded
+        console.error("Error while uploading file on cloudinary", error);
         return null;
 
     }
