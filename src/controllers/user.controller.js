@@ -269,8 +269,8 @@ const changeCurrentPassword = asyncHandler(async(req, res) => {
     const {oldPassword, newPassword} = req.body
     
     const user = await User.findById(req.user?._id)
-    const isPasswordCorrect = await user.isPasswordCorrect(oldPassword)
-    if (!isPasswordCorrect) {
+    const isPasswordcorrect = await user.isPasswordcorrect(oldPassword)
+    if (!isPasswordcorrect) {
         throw new ApiError(400, "Invalid old password")
     }
     user.password = newPassword
@@ -282,14 +282,18 @@ const changeCurrentPassword = asyncHandler(async(req, res) => {
 const getCurrentUser = asyncHandler(async(req, res) => {
     return res
     .status(200)
-    .json(200, req.user, "current user fetched successfully")
+    .json(new ApiResponse(
+        200,
+        user,
+        "User fetched successfully"
+    ))
 })
 const updateAccountDetails = asyncHandler(async(req, res) => {
     const {fullName, email} = req.body
     if (!fullName || !email) {
         throw new ApiError(400, "All fields are required")
     }
-    const user = User.findByIdAndUpdate(
+    const user = await User.findByIdAndUpdate(
         req.user?._id,
         {
             $set: {
